@@ -11,11 +11,7 @@ class BlogsController < ApplicationController
 
   def show
     @blog = Blog.find(params[:id])
-    # if @blog.secret && current_user != @blog.user
-    #   @blog = Blog.find(0)
-    # end
     @blog = Blog.find(0) if @blog.secret && current_user != @blog.user
-    @blog
   end
 
   def new
@@ -55,7 +51,6 @@ class BlogsController < ApplicationController
   end
 
   def blog_params
-    # attributes = current_user.premium? ? [:title, :content, :secret, :random_eyecatch] : [:title, :content, :secret]
     attributes = current_user.premium? ? %i[title content secret random_eyecatch] : %i[title content secret]
     params.require(:blog).permit(attributes)
   end
